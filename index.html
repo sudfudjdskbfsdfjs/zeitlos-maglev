@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛特勒斯磁悬浮应用中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @font-face {
+            font-family: 'SystemUI';
+            src: local('Microsoft YaHei'), local('PingFang SC'), local('Noto Sans SC'), local(sans-serif);
+        }
+
+        :root {
+            --primary: #0052D9;
+            --primary-light: #4A90E2;
+            --primary-dark: #003AA0;
+            --accent: #00D4FF;
+            --bg-dark: #0A0E1A;
+            --bg-section: #0F1528;
+            --text: #E8ECF4;
+            --text-muted: #8B95A8;
+            --gradient-1: linear-gradient(135deg, #0052D9, #00D4FF);
+            --gradient-2: linear-gradient(135deg, #003AA0, #0052D9);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ============ 导航栏 ============ */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            padding: 16px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10, 14, 26, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 82, 217, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 20px; font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .nav-logo .icon {
+            width: 36px; height: 36px;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; -webkit-text-fill-color: #fff;
+        }
+
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: 14px; font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ============ Hero 区域 ============ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 82, 217, 0.3) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 212, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 20% 60%, rgba(0, 58, 160, 0.15) 0%, transparent 60%);
+        }
+
+        /* 粒子动画 */
+        .particles {
+            position: absolute; inset: 0;
+            overflow: hidden; pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up linear infinite;
+        }
+        @keyframes float-up {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+        }
+
+        /* 磁悬浮环动画 */
+        .maglev-ring {
+            position: absolute;
+            width: 500px; height: 500px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 50%;
+            animation: rotate-ring 20s linear infinite;
+        }
+        .maglev-ring:nth-child(2) {
+            width: 400px; height: 400px;
+            border-color: rgba(0, 82, 217, 0.2);
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+        .maglev-ring:nth-child(3) {
+            width: 300px; height: 300px;
+            border-color: rgba(0, 212, 255, 0.1);
+            animation-duration: 25s;
+        }
+        @keyframes rotate-ring {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 20px; }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 24px;
+            background: rgba(0, 212, 255, 0.08);
+            letter-spacing: 2px;
+        }
+        .hero h1 {
+            font-size: 52px; font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .hero h1 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 15px; font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--gradient-1);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 82, 217, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0, 82, 217, 0.6);
+        }
+        .btn-outline {
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        .btn-outline:hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ============ 数据统计条 ============ */
+        .stats-bar {
+            display: flex; justify-content: center; gap: 60px;
+            padding: 40px 20px;
+            background: var(--bg-section);
+            border-top: 1px solid rgba(0, 82, 217, 0.15);
+            border-bottom: 1px solid rgba(0, 82, 217, 0.15);
+            flex-wrap: wrap;
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-size: 42px; font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+        /* ============ 通用 Section ============ */
+        section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-tag {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 4px;
+            background: rgba(0, 82, 217, 0.15);
+            color: var(--primary-light);
+            font-size: 13px; font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        .section-header h2 {
+            font-size: 36px; font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section-header p {
+            font-size: 16px; color: var(--text-muted);
+            max-width: 600px; margin: 0 auto; line-height: 1.8;
+        }
+
+        /* ============ 关于我们 ============ */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-visual {
+            position: relative;
+            height: 400px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .about-visual .core-sphere {
+            width: 180px; height: 180px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            box-shadow:
+                0 0 60px rgba(0, 82, 217, 0.5),
+                0 0 120px rgba(0, 212, 255, 0.2);
+            animation: levitate 3s ease-in-out infinite;
+        }
+        @keyframes levitate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .about-visual .orbit {
+            position: absolute;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            animation: rotate-ring 12s linear infinite;
+        }
+        .about-visual .orbit:nth-child(2) { width: 280px; height: 280px; }
+        .about-visual .orbit:nth-child(3) { width: 360px; height: 360px; animation-duration: 18s; animation-direction: reverse; }
+
+        .about-text h3 {
+            font-size: 28px; margin-bottom: 20px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .about-text p {
+            color: var(--text-muted); line-height: 2; margin-bottom: 16px; font-size: 15px;
+        }
+        .about-features {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            margin-top: 24px;
+        }
+        .about-feature {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 14px; color: var(--text);
+        }
+        .about-feature .dot {
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ============ 核心产品 ============ */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .product-card {
+            background: var(--bg-section);
+            border: 1px solid rgba(0, 82, 217, 0.15);
+            border-radius: 16px;
+            padding: 36px 28px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 82, 217, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .product-card:hover::before { opacity: 1; }
+
+        .product-icon {
+            width: 56px; height: 56px;
+            background: rgba(0, 82, 217, 0.15);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+        .product-card h3 { font-size: 18px; margin-bottom: 12px; }
+        .product-card p { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+        .product-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+        .product-tag {
+            padding: 3px 10px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 4px;
+            font-size: 11px; color: var(--accent);
+        }
+
+        /* ============ 技术优势 ============ */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .tech-card {
+            display: flex; gap: 20px;
+            padding: 28px;
+            background: var(--bg-section);
+            border: 1px solid rgba(0, 82, 217, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .tech-card:hover {
+            border-color: rgba(0, 82, 217, 0.3);
+            background: rgba(15, 21, 40, 0.8);
+        }
+        .tech-num {
+            font-size: 36px; font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            flex-shrink: 0;
+        }
+        .tech-card h3 { font-size: 16px; margin-bottom: 8px; }
+        .tech-card p { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+
+        /* ============ 应用领域 ============ */
+        .fields-wrap {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .field-item {
+            text-align: center;
+            padding: 32px 16px;
+            background: var(--bg-section);
+            border: 1px solid rgba(0, 82, 217, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .field-item:hover {
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-4px);
+        }
+        .field-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+        .field-item h4 { font-size: 15px; margin-bottom: 8px; }
+        .field-item p { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+        /* ============ 资质认证 ============ */
+        .certs {
+            display: flex; justify-content: center; gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .cert-badge {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 12px;
+            padding: 24px 32px;
+            background: var(--bg-section);
+            border: 1px solid rgba(0, 82, 217, 0.15);
+            border-radius: 12px;
+            min-width: 160px;
+        }
+        .cert-badge .icon {
+            font-size: 32px;
+        }
+        .cert-badge span {
+            font-size: 14px; font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* ============ 联系我们 ============ */
+        .contact-section {
+            background: var(--bg-section);
+            border-radius: 20px;
+            padding: 60px;
+            border: 1px solid rgba(0, 82, 217, 0.15);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .contact-info h3 {
+            font-size: 24px; margin-bottom: 20px;
+        }
+        .contact-info h3 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .contact-detail {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px; color: var(--text-muted);
+        }
+        .contact-detail .icon { font-size: 18px; }
+
+        .contact-form { display: flex; flex-direction: column; gap: 16px; }
+        .contact-form input,
+        .contact-form textarea {
+            background: rgba(10, 14, 26, 0.6);
+            border: 1px solid rgba(0, 82, 217, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--primary-light);
+        }
+        .contact-form textarea { resize: vertical; min-height: 120px; }
+        .contact-form .btn-primary { align-self: flex-start; }
+
+        /* ============ Footer ============ */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(0, 82, 217, 0.1);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        /* ============ 响应式 ============ */
+        @media (max-width: 900px) {
+            .products-grid { grid-template-columns: 1fr; }
+            .about-grid { grid-template-columns: 1fr; }
+            .tech-grid { grid-template-columns: 1fr; }
+            .fields-wrap { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 36px; }
+            nav { padding: 12px 20px; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 600px) {
+            .fields-wrap { grid-template-columns: 1fr; }
+            .stats-bar { gap: 30px; }
+            section { padding: 60px 20px; }
+            .contact-section { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav>
+    <div class="nav-logo">
+        <div class="icon">⚙</div>
+        赛特勒斯磁悬浮
+    </div>
+    <ul class="nav-links">
+        <li><a href="#about">关于我们</a></li>
+        <li><a href="#products">核心产品</a></li>
+        <li><a href="#tech">技术优势</a></li>
+        <li><a href="#fields">应用领域</a></li>
+        <li><a href="#contact">联系我们</a></li>
+    </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="particles" id="particles"></div>
+    <div class="maglev-ring"></div>
+    <div class="maglev-ring"></div>
+    <div class="maglev-ring"></div>
+    <div class="hero-content">
+        <div class="hero-badge">✦ MAGNETIC LEVITATION TECHNOLOGY ✦</div>
+        <h1>赛特勒斯<br><span>磁悬浮应用中心</span></h1>
+        <p>以磁悬浮轴承系统及传动解决方案为核心，提供绿色、高效、稳定的磁悬浮控制系统及磁悬浮高速永磁同步电机，赋能工业、能源、环保等多领域创新发展</p>
+        <div class="hero-buttons">
+            <a href="#products" class="btn btn-primary">探索产品</a>
+            <a href="#contact" class="btn btn-outline">联系我们</a>
+        </div>
+    </div>
+</section>
+
+<!-- 数据统计 -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-num">15+</div>
+        <div class="stat-label">年技术积累</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">核心专利</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">ISO9001</div>
+        <div class="stat-label">质量认证</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">服务客户</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">研发中心</div>
+    </div>
+</div>
+
+<!-- 关于我们 -->
+<section id="about">
+    <div class="section-header">
+        <div class="section-tag">ABOUT US</div>
+        <h2>关于赛特勒斯</h2>
+        <p>源于德国精工，深耕磁悬浮技术，引领中国磁悬浮产业升级</p>
+    </div>
+    <div class="about-grid">
+        <div class="about-visual">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="core-sphere"></div>
+        </div>
+        <div class="about-text">
+            <h3>德国工艺 · 中国智造</h3>
+            <p>赛特勒斯轴承科技（北京）有限公司（简称：赛特勒斯）由国内外多名行业专家领衔，致力于以磁悬浮轴承系统及传动解决方案为核心。利用技术、管理和市场优势，针对不同行业客户的特点和需求，提供绿色、高效、稳定的磁悬浮控制系统及磁悬浮高速永磁同步电机。</p>
+            <p>公司拥有欧美进口精密加工设备多台，采用现代化整机生产流水线，经过 ISO9001 质量管理体系认证，保证产品生产的高效和成果的品质。</p>
+            <div class="about-features">
+                <div class="about-feature"><span class="dot"></span>磁悬浮轴承系统</div>
+                <div class="about-feature"><span class="dot"></span>高速永磁同步电机</div>
+                <div class="about-feature"><span class="dot"></span>专精特新企业</div>
+                <div class="about-feature"><span class="dot"></span>行业专家聚集</div>
+                <div class="about-feature"><span class="dot"></span>ISO9001认证</div>
+                <div class="about-feature"><span class="dot"></span>欧美进口设备</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 核心产品 -->
+<section id="products">
+    <div class="section-header">
+        <div class="section-tag">CORE PRODUCTS</div>
+        <h2>核心产品</h2>
+        <p>覆盖磁悬浮动力系统全链条，为不同行业提供定制化解决方案</p>
+    </div>
+    <div class="products-grid">
+        <div class="product-card">
+            <div class="product-icon">🌀</div>
+            <h3>磁悬浮轴承系统</h3>
+            <p>采用主动磁悬浮技术，实现转子无接触悬浮运转，零摩擦、零磨损，寿命长、免维护，转速可达数万转/分钟。</p>
+            <div class="product-tags">
+                <span class="product-tag">零摩擦</span>
+                <span class="product-tag">免维护</span>
+                <span class="product-tag">超高速</span>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-icon">⚡</div>
+            <h3>磁悬浮高速永磁同步电机</h3>
+            <p>高效永磁同步电机与磁悬浮轴承深度集成，功率密度高、体积紧凑、效率超 97%，适用于高速直驱场景。</p>
+            <div class="product-tags">
+                <span class="product-tag">高效率</span>
+                <span class="product-tag">高功率密度</span>
+                <span class="product-tag">直驱</span>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-icon">🌬️</div>
+            <h3>磁悬浮鼓风机</h3>
+            <p>磁悬浮轴承驱动的离心式鼓风机，节能 30% 以上，噪音低于 80dB，广泛用于污水处理、冶金、化工等领域。</p>
+            <div class="product-tags">
+                <span class="product-tag">节能30%+</span>
+                <span class="product-tag">低噪音</span>
+                <span class="product-tag">环保</span>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-icon">❄️</div>
+            <h3>磁悬浮压缩机</h3>
+            <p>磁悬浮离心式压缩机，无油运行、能效比高，为中央空调、冷链物流、工业制冷提供绿色解决方案。</p>
+            <div class="product-tags">
+                <span class="product-tag">无油运行</span>
+                <span class="product-tag">高能效</span>
+                <span class="product-tag">制冷</span>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-icon">⚙️</div>
+            <h3>磁悬浮传动装置</h3>
+            <p>高精密磁悬浮传动组件，适用于超高温、超低温等极端工况，为高端装备提供核心动力支持。</p>
+            <div class="product-tags">
+                <span class="product-tag">高精密</span>
+                <span class="product-tag">耐极端</span>
+                <span class="product-tag">定制化</span>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-icon">🔧</div>
+            <h3>磁悬浮控制系统</h3>
+            <p>自主研发的数字磁悬浮控制器，支持多自由度实时控制，可灵活适配各类磁悬浮设备应用场景。</p>
+            <div class="product-tags">
+                <span class="product-tag">自主研发</span>
+                <span class="product-tag">实时控制</span>
+                <span class="product-tag">模块化</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 技术优势 -->
+<section id="tech">
+    <div class="section-header">
+        <div class="section-tag">ADVANTAGES</div>
+        <h2>技术优势</h2>
+        <p>以自主创新为驱动，打造磁悬浮核心技术壁垒</p>
+    </div>
+    <div class="tech-grid">
+        <div class="tech-card">
+            <div class="tech-num">01</div>
+            <div>
+                <h3>主动磁悬浮控制算法</h3>
+                <p>自主研发的数字控制算法，响应速度快、稳定性高，实现转子五自由度精确悬浮控制，抗扰动能力行业领先。</p>
+            </div>
+        </div>
+        <div class="tech-card">
+            <div class="tech-num">02</div>
+            <div>
+                <h3>高效永磁同步电机设计</h3>
+                <p>电磁优化设计结合磁悬浮轴承集成，效率超 97%，功率密度比传统电机提升 40% 以上，显著降低系统体积与能耗。</p>
+            </div>
+        </div>
+        <div class="tech-card">
+            <div class="tech-num">03</div>
+            <div>
+                <h3>全流程精密制造</h3>
+                <p>欧美进口精密加工设备 + 现代化整机流水线，从零部件到整机全流程自主可控，确保产品一致性和可靠性。</p>
+            </div>
+        </div>
+        <div class="tech-card">
+            <div class="tech-num">04</div>
+            <div>
+                <h3>行业定制化解决方案</h3>
+                <p>深入了解工业、能源、环保等行业需求，提供从方案设计、系统集成到售后运维的一站式服务。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 应用领域 -->
+<section id="fields">
+    <div class="section-header">
+        <div class="section-tag">APPLICATIONS</div>
+        <h2>应用领域</h2>
+        <p>磁悬浮技术赋能千行百业，推动绿色高效产业升级</p>
+    </div>
+    <div class="fields-wrap">
+        <div class="field-item">
+            <div class="field-icon">🏗️</div>
+            <h4>工业制造</h4>
+            <p>鼓风机、压缩机等工业动力设备节能改造</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">🏭</div>
+            <h4>冶金化工</h4>
+            <p>高温高压环境下的磁悬浮驱动与传动系统</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">🚚</div>
+            <h4>冷链物流</h4>
+            <p>磁悬浮压缩机冷链系统，高效节能</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">💧</div>
+            <h4>污水处理</h4>
+            <p>磁悬浮鼓风机曝气系统，节能30%以上</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">❄️</div>
+            <h4>暖通制冷</h4>
+            <p>磁悬浮压缩机中央空调系统，绿色节能</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">⚡</div>
+            <h4>能源电力</h4>
+            <p>余压发电、飞轮储能、高速发电机</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">🧪</div>
+            <h4>科研实验</h4>
+            <p>超高速旋转实验、极端环境模拟装置</p>
+        </div>
+        <div class="field-item">
+            <div class="field-icon">🤖</div>
+            <h4>智能装备</h4>
+            <p>机器人专用轴承、自动化产线核心部件</p>
+        </div>
+    </div>
+</section>
+
+<!-- 资质认证 -->
+<section>
+    <div class="section-header">
+        <div class="section-tag">CERTIFICATIONS</div>
+        <h2>资质与认证</h2>
+        <p>严格的质量管理体系，保障每一件产品的卓越品质</p>
+    </div>
+    <div class="certs">
+        <div class="cert-badge">
+            <div class="icon">🏅</div>
+            <span>ISO9001 质量管理体系</span>
+        </div>
+        <div class="cert-badge">
+            <div class="icon">🔬</div>
+            <span>高新技术企业</span>
+        </div>
+        <div class="cert-badge">
+            <div class="icon">📜</div>
+            <span>10+ 项核心专利</span>
+        </div>
+        <div class="cert-badge">
+            <div class="icon">🎖️</div>
+            <span>专精特新企业</span>
+        </div>
+    </div>
+</section>
+
+<!-- 联系我们 -->
+<section id="contact">
+    <div class="contact-section">
+        <div class="section-header">
+            <div class="section-tag">CONTACT</div>
+            <h2>联系我们</h2>
+            <p>期待与您携手，共创磁悬浮技术新未来</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>赛特勒斯轴承科技<span>（北京）有限公司</span></h3>
+                <div class="contact-detail">
+                    <span class="icon">📍</span>
+                    北京市（总部研发中心）
+                </div>
+                <div class="contact-detail">
+                    <span class="icon">📍</span>
+                    河北省承德市开发区微型智慧创业创新科技园（生产基地）
+                </div>
+                <div class="contact-detail">
+                    <span class="icon">📍</span>
+                    河北省邢台市（研发中心）
+                </div>
+                <div class="contact-detail">
+                    <span class="icon">🌐</span>
+                    <a href="http://www.zeitlos-b.com" target="_blank" style="color: var(--accent); text-decoration: none;">www.zeitlos-b.com</a>
+                </div>
+                <div class="contact-detail">
+                    <span class="icon">📞</span>
+                    010-67851780
+                </div>
+                <div class="contact-detail">
+                    <span class="icon">📱</span>
+                    18510480128
+                </div>
+                <div class="contact-detail">
+                    <span class="icon">📧</span>
+                    zeitlos@163.com
+                </div>
+            </div>
+            <div class="contact-form">
+                <input type="text" placeholder="您的姓名" />
+                <input type="email" placeholder="电子邮箱" />
+                <input type="tel" placeholder="联系电话" />
+                <textarea placeholder="请描述您的需求或问题..."></textarea>
+                <button class="btn btn-primary">提交咨询</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2024 赛特勒斯轴承科技（北京）有限公司 · 赛特勒斯磁悬浮应用中心 &nbsp;|&nbsp; <a href="http://www.zeitlos-b.com" target="_blank">官方网站</a></p>
+    <p style="margin-top: 8px; font-size: 12px;">Zeitlos Bearing Technology (Beijing) Co., Ltd. — Magnetic Levitation Application Center</p>
+</footer>
+
+<script>
+    // 粒子效果
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 12) + 's';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+        particlesContainer.appendChild(p);
+    }
+
+    // 导航滚动效果
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+            nav.style.background = 'rgba(10, 14, 26, 0.95)';
+        } else {
+            nav.style.background = 'rgba(10, 14, 26, 0.85)';
+        }
+    });
+
+    // 数字滚动动画
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.product-card, .tech-card, .field-item, .cert-badge').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>
