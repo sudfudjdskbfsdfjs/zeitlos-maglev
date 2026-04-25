@@ -339,6 +339,40 @@
         }
         .product-card:hover::before { opacity: 1; }
 
+        .product-image {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, rgba(0, 82, 217, 0.1), rgba(0, 212, 255, 0.05));
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 82, 217, 0.2);
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        .product-image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .product-image-placeholder .icon {
+            font-size: 40px;
+            opacity: 0.6;
+        }
         .product-icon {
             width: 56px; height: 56px;
             background: rgba(0, 82, 217, 0.15);
@@ -605,7 +639,12 @@
     </div>
     <div class="products-grid">
         <div class="product-card">
-            <div class="product-icon">🌀</div>
+            <div class="product-image">
+                <div class="product-image-placeholder">
+                    <span class="icon">🌀</span>
+                    <span>产品图片</span>
+                </div>
+            </div>
             <h3>磁悬浮轴承系统</h3>
             <p>采用主动磁悬浮技术，实现转子无接触悬浮运转，零摩擦、零磨损，寿命长、免维护，转速可达数万转/分钟。</p>
             <div class="product-tags">
@@ -615,7 +654,12 @@
             </div>
         </div>
         <div class="product-card">
-            <div class="product-icon">⚡</div>
+            <div class="product-image">
+                <div class="product-image-placeholder">
+                    <span class="icon">⚡</span>
+                    <span>产品图片</span>
+                </div>
+            </div>
             <h3>磁悬浮高速永磁同步电机</h3>
             <p>高效永磁同步电机与磁悬浮轴承深度集成，功率密度高、体积紧凑、效率超 97%，适用于高速直驱场景。</p>
             <div class="product-tags">
@@ -625,7 +669,12 @@
             </div>
         </div>
         <div class="product-card">
-            <div class="product-icon">🌬️</div>
+            <div class="product-image">
+                <div class="product-image-placeholder">
+                    <span class="icon">🌬️</span>
+                    <span>产品图片</span>
+                </div>
+            </div>
             <h3>磁悬浮鼓风机</h3>
             <p>磁悬浮轴承驱动的离心式鼓风机，节能 30% 以上，噪音低于 80dB，广泛用于污水处理、冶金、化工等领域。</p>
             <div class="product-tags">
@@ -635,7 +684,12 @@
             </div>
         </div>
         <div class="product-card">
-            <div class="product-icon">❄️</div>
+            <div class="product-image">
+                <div class="product-image-placeholder">
+                    <span class="icon">❄️</span>
+                    <span>产品图片</span>
+                </div>
+            </div>
             <h3>磁悬浮压缩机</h3>
             <p>磁悬浮离心式压缩机，无油运行、能效比高，为中央空调、冷链物流、工业制冷提供绿色解决方案。</p>
             <div class="product-tags">
@@ -645,7 +699,12 @@
             </div>
         </div>
         <div class="product-card">
-            <div class="product-icon">⚙️</div>
+            <div class="product-image">
+                <div class="product-image-placeholder">
+                    <span class="icon">⚙️</span>
+                    <span>产品图片</span>
+                </div>
+            </div>
             <h3>磁悬浮传动装置</h3>
             <p>高精密磁悬浮传动组件，适用于超高温、超低温等极端工况，为高端装备提供核心动力支持。</p>
             <div class="product-tags">
@@ -655,7 +714,12 @@
             </div>
         </div>
         <div class="product-card">
-            <div class="product-icon">🔧</div>
+            <div class="product-image">
+                <div class="product-image-placeholder">
+                    <span class="icon">🔧</span>
+                    <span>产品图片</span>
+                </div>
+            </div>
             <h3>磁悬浮控制系统</h3>
             <p>自主研发的数字磁悬浮控制器，支持多自由度实时控制，可灵活适配各类磁悬浮设备应用场景。</p>
             <div class="product-tags">
