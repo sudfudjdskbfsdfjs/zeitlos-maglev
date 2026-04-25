@@ -341,8 +341,8 @@
 
         .product-image {
             width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, rgba(0, 82, 217, 0.1), rgba(0, 212, 255, 0.05));
+            height: 180px;
+            background: linear-gradient(135deg, rgba(0, 82, 217, 0.15), rgba(0, 212, 255, 0.08));
             border-radius: 12px;
             margin-bottom: 20px;
             display: flex;
@@ -350,7 +350,15 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
-            border: 1px solid rgba(0, 82, 217, 0.2);
+            border: 1px solid rgba(0, 82, 217, 0.25);
+        }
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(0, 82, 217, 0.1) 0%, transparent 50%);
         }
         .product-image img {
             width: 100%;
@@ -361,17 +369,16 @@
         .product-card:hover .product-image img {
             transform: scale(1.05);
         }
-        .product-image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            font-size: 12px;
+        .product-svg {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            z-index: 1;
         }
-        .product-image-placeholder .icon {
-            font-size: 40px;
-            opacity: 0.6;
+        .product-svg svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 12px rgba(0, 82, 217, 0.3));
         }
         .product-icon {
             width: 56px; height: 56px;
@@ -640,9 +647,19 @@
     <div class="products-grid">
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-placeholder">
-                    <span class="icon">🌀</span>
-                    <span>产品图片</span>
+                <div class="product-svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="35" stroke="url(#grad1)" stroke-width="2" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="25" stroke="url(#grad1)" stroke-width="2" opacity="0.8"/>
+                        <circle cx="50" cy="50" r="12" fill="url(#grad1)" opacity="0.9"/>
+                        <circle cx="50" cy="50" r="4" fill="#00D4FF"/>
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0052D9"/>
+                                <stop offset="100%" style="stop-color:#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <h3>磁悬浮轴承系统</h3>
@@ -655,9 +672,19 @@
         </div>
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-placeholder">
-                    <span class="icon">⚡</span>
-                    <span>产品图片</span>
+                <div class="product-svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="25" y="30" width="50" height="40" rx="4" stroke="url(#grad2)" stroke-width="2" opacity="0.8"/>
+                        <circle cx="50" cy="50" r="15" stroke="url(#grad2)" stroke-width="2" opacity="0.9"/>
+                        <path d="M50 35 L50 42 M50 58 L50 65 M35 50 L42 50 M58 50 L65 50" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="50" cy="50" r="8" fill="url(#grad2)" opacity="0.6"/>
+                        <defs>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0052D9"/>
+                                <stop offset="100%" style="stop-color:#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <h3>磁悬浮高速永磁同步电机</h3>
@@ -670,9 +697,19 @@
         </div>
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-placeholder">
-                    <span class="icon">🌬️</span>
-                    <span>产品图片</span>
+                <div class="product-svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="50" cy="50" rx="30" ry="20" stroke="url(#grad3)" stroke-width="2" opacity="0.8"/>
+                        <ellipse cx="50" cy="50" rx="20" ry="12" stroke="url(#grad3)" stroke-width="2" opacity="0.9"/>
+                        <path d="M50 30 L50 25 M65 35 L70 32 M70 50 L75 50 M65 65 L70 68 M50 70 L50 75 M35 65 L30 68 M30 50 L25 50 M35 35 L30 32" stroke="#00D4FF" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                        <circle cx="50" cy="50" r="6" fill="url(#grad3)"/>
+                        <defs>
+                            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0052D9"/>
+                                <stop offset="100%" style="stop-color:#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <h3>磁悬浮鼓风机</h3>
@@ -685,9 +722,20 @@
         </div>
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-placeholder">
-                    <span class="icon">❄️</span>
-                    <span>产品图片</span>
+                <div class="product-svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M35 35 L50 25 L65 35 L65 65 L50 75 L35 65 Z" stroke="url(#grad4)" stroke-width="2" fill="none" opacity="0.8"/>
+                        <path d="M50 25 L50 50 L65 65" stroke="url(#grad4)" stroke-width="1.5" opacity="0.5"/>
+                        <path d="M35 35 L50 50" stroke="url(#grad4)" stroke-width="1.5" opacity="0.5"/>
+                        <circle cx="50" cy="50" r="10" stroke="#00D4FF" stroke-width="2" fill="none"/>
+                        <circle cx="50" cy="50" r="4" fill="#00D4FF"/>
+                        <defs>
+                            <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0052D9"/>
+                                <stop offset="100%" style="stop-color:#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <h3>磁悬浮压缩机</h3>
@@ -700,9 +748,21 @@
         </div>
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-placeholder">
-                    <span class="icon">⚙️</span>
-                    <span>产品图片</span>
+                <div class="product-svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="35" cy="50" r="18" stroke="url(#grad5)" stroke-width="2" opacity="0.8"/>
+                        <circle cx="65" cy="50" r="18" stroke="url(#grad5)" stroke-width="2" opacity="0.8"/>
+                        <path d="M35 38 L65 38 M35 62 L65 62" stroke="url(#grad5)" stroke-width="2" opacity="0.6"/>
+                        <circle cx="35" cy="50" r="6" fill="#00D4FF" opacity="0.8"/>
+                        <circle cx="65" cy="50" r="6" fill="#00D4FF" opacity="0.8"/>
+                        <path d="M45 50 L55 50" stroke="#00D4FF" stroke-width="2" stroke-dasharray="3,2"/>
+                        <defs>
+                            <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0052D9"/>
+                                <stop offset="100%" style="stop-color:#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <h3>磁悬浮传动装置</h3>
@@ -715,9 +775,22 @@
         </div>
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-placeholder">
-                    <span class="icon">🔧</span>
-                    <span>产品图片</span>
+                <div class="product-svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="20" y="30" width="60" height="40" rx="3" stroke="url(#grad6)" stroke-width="2" opacity="0.8"/>
+                        <rect x="28" y="38" width="20" height="8" rx="1" fill="url(#grad6)" opacity="0.6"/>
+                        <rect x="52" y="38" width="20" height="8" rx="1" fill="url(#grad6)" opacity="0.4"/>
+                        <rect x="28" y="52" width="44" height="4" rx="1" fill="#00D4FF" opacity="0.8"/>
+                        <circle cx="75" cy="35" r="3" fill="#00D4FF"/>
+                        <circle cx="82" cy="35" r="3" fill="#00D4FF" opacity="0.6"/>
+                        <circle cx="89" cy="35" r="3" fill="#00D4FF" opacity="0.3"/>
+                        <defs>
+                            <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0052D9"/>
+                                <stop offset="100%" style="stop-color:#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <h3>磁悬浮控制系统</h3>
