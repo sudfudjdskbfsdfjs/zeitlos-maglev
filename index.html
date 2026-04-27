@@ -399,6 +399,46 @@
             font-size: 11px; color: var(--accent);
         }
 
+        /* 产品展开详情 */
+        .product-toggle {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-top: 16px;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, rgba(0, 82, 217, 0.15), rgba(0, 212, 255, 0.08));
+            border: 1px solid rgba(0, 82, 217, 0.3);
+            border-radius: 20px;
+            font-size: 13px; color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+        .product-toggle:hover { background: linear-gradient(135deg, rgba(0, 82, 217, 0.25), rgba(0, 212, 255, 0.15)); border-color: var(--accent); }
+        .product-toggle .arrow { transition: transform 0.3s; font-size: 12px; }
+        .product-toggle.active .arrow { transform: rotate(180deg); }
+        .product-detail {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+        .product-detail.open {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 16px;
+        }
+        .product-detail h4 {
+            font-size: 15px; color: var(--accent); margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .product-detail h4::before { content: '●'; font-size: 10px; }
+        .product-detail ul { list-style: none; padding-left: 8px; margin-bottom: 14px; }
+        .product-detail li {
+            position: relative; padding: 5px 0 5px 18px; font-size: 13px; color: var(--text-muted); line-height: 1.7;
+        }
+        .product-detail li::before {
+            content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 11px;
+        }
+
         /* ============ 技术优势 ============ */
         .tech-grid {
             display: grid;
@@ -669,6 +709,22 @@
                 <span class="product-tag">免维护</span>
                 <span class="product-tag">超高速</span>
             </div>
+            <div class="product-toggle" onclick="toggleDetail(this)"><span>查看功能与用途</span><span class="arrow">▼</span></div>
+            <div class="product-detail">
+                <h4>核心功能</h4>
+                <ul>
+                    <li>五自由度主动悬浮控制，转子完全无接触运行</li>
+                    <li>自适应控制算法，自动补偿负载变化与外部扰动</li>
+                    <li>断电安全保护，紧急情况下软着陆保护转子与轴承</li>
+                    <li>实时状态监测，振动、温度、位移全参数在线监控</li>
+                </ul>
+                <h4>典型用途</h4>
+                <ul>
+                    <li>高速电机、透平机械、离心压缩机的核心支撑部件</li>
+                    <li>飞轮储能、高速主轴等超高速旋转设备</li>
+                    <li>替代传统油润滑轴承，实现设备免维护、无污染运行</li>
+                </ul>
+            </div>
         </div>
         <div class="product-card">
             <div class="product-image">
@@ -694,6 +750,22 @@
                 <span class="product-tag">高功率密度</span>
                 <span class="product-tag">直驱</span>
             </div>
+            <div class="product-toggle" onclick="toggleDetail(this)"><span>查看功能与用途</span><span class="arrow">▼</span></div>
+            <div class="product-detail">
+                <h4>核心功能</h4>
+                <ul>
+                    <li>永磁同步电机与磁悬浮轴承一体化集成设计，无需齿轮箱增速</li>
+                    <li>转速范围广，支持 10000~60000 rpm 高速直驱运行</li>
+                    <li>效率超过 97%，比传统异步电机节能 15%~30%</li>
+                    <li>内置智能驱动器，支持变频调速与远程控制</li>
+                </ul>
+                <h4>典型用途</h4>
+                <ul>
+                    <li>磁悬浮鼓风机、压缩机、真空泵等流体机械的动力核心</li>
+                    <li>工业高速传动、测试台架、精密加工主轴驱动</li>
+                    <li>发电机组、飞轮储能、分布式能源系统</li>
+                </ul>
+            </div>
         </div>
         <div class="product-card">
             <div class="product-image">
@@ -718,6 +790,22 @@
                 <span class="product-tag">节能30%+</span>
                 <span class="product-tag">低噪音</span>
                 <span class="product-tag">环保</span>
+            </div>
+            <div class="product-toggle" onclick="toggleDetail(this)"><span>查看功能与用途</span><span class="arrow">▼</span></div>
+            <div class="product-detail">
+                <h4>核心功能</h4>
+                <ul>
+                    <li>磁悬浮离心式鼓风，无油无摩擦，无需润滑油系统与冷却水</li>
+                    <li>智能变频调速，根据工况自动调节风量风压，按需供气</li>
+                    <li>运行噪音低于 80dB，比传统罗茨风机降低 20dB 以上</li>
+                    <li>相比罗茨/多级离心鼓风机综合节能 30%~50%</li>
+                </ul>
+                <h4>典型用途</h4>
+                <ul>
+                    <li>市政污水处理厂曝气系统、污水好氧处理供氧</li>
+                    <li>化工、印染、制药行业工艺气体输送</li>
+                    <li>水泥、电力行业粉料气力输送与烟气脱硫</li>
+                </ul>
             </div>
         </div>
         <div class="product-card">
@@ -745,10 +833,26 @@
                 <span class="product-tag">高能效</span>
                 <span class="product-tag">制冷</span>
             </div>
+            <div class="product-toggle" onclick="toggleDetail(this)"><span>查看功能与用途</span><span class="arrow">▼</span></div>
+            <div class="product-detail">
+                <h4>核心功能</h4>
+                <ul>
+                    <li>磁悬浮离心式制冷压缩，完全无油运行，杜绝油污染风险</li>
+                    <li>COP 能效比高达 6.0 以上，远超传统螺杆/活塞压缩机</li>
+                    <li>部分负荷下效率衰减小，10%~100% 负荷区间均保持高效运行</li>
+                    <li>智能控制，支持多机联控与楼宇自控系统无缝对接</li>
+                </ul>
+                <h4>典型用途</h4>
+                <ul>
+                    <li>大型中央空调系统、数据中心精密空调、商业综合体冷源</li>
+                    <li>冷链物流仓储、食品加工冷冻冷藏、医药冷链运输</li>
+                    <li>工业工艺冷却、化工低温分离、余热回收热泵系统</li>
+                </ul>
+            </div>
         </div>
         <div class="product-card">
             <div class="product-image">
-                <img src="vacuum-pump.png" alt="磁悬浮透平真空泵" style="width:100%;height:160px;object-fit:contain;padding:10px;border-radius:8px;">
+                <img src="vacuum-pump.png" alt="磁悬浮透平真空泵" style="width:100%;height:200px;object-fit:contain;padding:10px;border-radius:8px;background:#0a1628;">
             </div>
             <h3>磁悬浮透平真空泵</h3>
             <p>采用磁悬浮轴承与透平技术深度融合，无油无摩擦，极限真空度高，噪音低，广泛应用于半导体、化工、食品等需要洁净真空的场合。</p>
@@ -757,33 +861,48 @@
                 <span class="product-tag">高真空度</span>
                 <span class="product-tag">低噪音</span>
             </div>
+            <div class="product-toggle" onclick="toggleDetail(this)"><span>查看功能与用途</span><span class="arrow">▼</span></div>
+            <div class="product-detail">
+                <h4>核心功能</h4>
+                <ul>
+                    <li>磁悬浮透平式真空泵，完全无油运行，提供 100% 洁净真空环境</li>
+                    <li>多级透平叶轮串联，极限真空度可达 1mbar 以下</li>
+                    <li>运行噪音低于 75dB，远低于传统水环/旋片真空泵</li>
+                    <li>无需工作液，无废水废气排放，真正绿色环保</li>
+                </ul>
+                <h4>典型用途</h4>
+                <ul>
+                    <li>半导体晶圆制造、光伏电池片生产中的真空工艺环节</li>
+                    <li>化工蒸馏、干燥、脱气等需要洁净真空的生产工序</li>
+                </ul>
+            </div>
         </div>
         <div class="product-card">
             <div class="product-image">
-                <div class="product-svg">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="20" y="30" width="60" height="40" rx="3" stroke="url(#grad6)" stroke-width="2" opacity="0.8"/>
-                        <rect x="28" y="38" width="20" height="8" rx="1" fill="url(#grad6)" opacity="0.6"/>
-                        <rect x="52" y="38" width="20" height="8" rx="1" fill="url(#grad6)" opacity="0.4"/>
-                        <rect x="28" y="52" width="44" height="4" rx="1" fill="#00D4FF" opacity="0.8"/>
-                        <circle cx="75" cy="35" r="3" fill="#00D4FF"/>
-                        <circle cx="82" cy="35" r="3" fill="#00D4FF" opacity="0.6"/>
-                        <circle cx="89" cy="35" r="3" fill="#00D4FF" opacity="0.3"/>
-                        <defs>
-                            <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#0052D9"/>
-                                <stop offset="100%" style="stop-color:#00D4FF"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
+                <img src="controller.png?v=20260427" alt="磁悬浮控制器" style="width:100%;height:200px;object-fit:contain;padding:10px;border-radius:8px;background:#0a1628;">
             </div>
-            <h3>磁悬浮控制系统</h3>
+            <h3>磁悬浮控制器</h3>
             <p>自主研发的数字磁悬浮控制器，支持多自由度实时控制，可灵活适配各类磁悬浮设备应用场景。</p>
             <div class="product-tags">
                 <span class="product-tag">自主研发</span>
                 <span class="product-tag">实时控制</span>
                 <span class="product-tag">模块化</span>
+            </div>
+            <div class="product-toggle" onclick="toggleDetail(this)"><span>查看功能与用途</span><span class="arrow">▼</span></div>
+            <div class="product-detail">
+                <h4>核心功能</h4>
+                <ul>
+                    <li>五自由度实时悬浮控制，控制周期小于 10μs，响应极快</li>
+                    <li>自适应 PID + 前馈复合控制算法，自动适应不同工况</li>
+                    <li>模块化硬件设计，支持 1~5 自由度灵活配置</li>
+                    <li>人机交互界面，实时显示运行参数与故障诊断信息</li>
+                </ul>
+                <h4>典型用途</h4>
+                <ul>
+                    <li>各类磁悬浮旋转设备的控制核心（鼓风机、压缩机、真空泵等）</li>
+                    <li>高速电机试验台、飞轮储能系统的悬浮控制单元</li>
+                    <li>OEM 客户定制开发，提供控制方案设计与技术支持</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -984,6 +1103,19 @@
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+
+    // 产品详情展开/收起
+    function toggleDetail(btn) {
+        const detail = btn.nextElementSibling;
+        const isOpen = detail.classList.contains('open');
+        // 关闭所有其他已展开的
+        document.querySelectorAll('.product-detail.open').forEach(d => {
+            if (d !== detail) { d.classList.remove('open'); d.previousElementSibling.classList.remove('active'); }
+        });
+        // 切换当前
+        detail.classList.toggle('open');
+        btn.classList.toggle('active');
+    }
 </script>
 
 </body>
