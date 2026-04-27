@@ -587,6 +587,41 @@
             section { padding: 60px 20px; }
             .contact-section { padding: 30px 20px; }
         }
+        /* PDF 模态框样式 */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+        }
+        .pdf-modal.active {
+            display: block;
+        }
+        .pdf-modal-content {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            margin: 2% auto;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .pdf-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 32px;
+            color: #333;
+            cursor: pointer;
+            z-index: 10001;
+        }
+        .pdf-modal-close:hover {
+            color: #f00;
+        }
     </style>
 </head>
 <body>
@@ -826,14 +861,12 @@
                     专注高导热氮化铝（AlN）材料研发与生产，提供从高纯粉体到陶瓷基板、结构件的全产业链解决方案。
                 </p>
                 <div style="margin:20px 0;text-align:center;">
-                    <iframe 
-                        src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/sudfudjdskbfsdfjs/zeitlos-maglev/main/%E8%B5%9B%E7%89%B9%E6%96%B0%E6%9D%90%E6%96%99.pdf&embedded=true" 
-                        style="width:100%;height:600px;border:2px solid #1e3a5f;border-radius:8px;"
-                        allowfullscreen>
-                    </iframe>
+                    <a href="javascript:void(0)" onclick="showPdfModal()" style="display:inline-block;padding:15px 30px;background:linear-gradient(135deg,#4a9eff,#2563eb);color:#fff;text-decoration:none;border-radius:8px;font-size:16px;font-weight:bold;box-shadow:0 4px 15px rgba(37,99,235,0.4);">
+                        📄 查看完整产品介绍 PDF
+                    </a>
                 </div>
-                <h4>核心产品</h4>
-                <ul>
+                <h4 onclick="showPdfModal()" style="cursor:pointer;color:#4a9eff;text-decoration:underline;" title="点击查看PDF">核心产品 ▼</h4>
+                <ul onclick="showPdfModal()" style="cursor:pointer;">
                     <li><strong>高纯度氮化铝粉</strong> — 纯度≥99.5%，热导率≥200 W/m·K</li>
                     <li><strong>氮化铝改性粉</strong> — 表面改性处理，分散性好</li>
                     <li><strong>氮化铝造粒粉</strong> — 流动性优异，适合复杂成型</li>
@@ -1108,7 +1141,32 @@
         detail.classList.toggle('open');
         btn.classList.toggle('active');
     }
+    // 赛特新材料 PDF 模态框
+    function showPdfModal() {
+        var modal = document.getElementById('saitePdfModal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+    function closePdfModal() {
+        var modal = document.getElementById('saitePdfModal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
+    }
 </script>
+
+<!-- 赛特新材料 PDF 模态框 -->
+<div id="saitePdfModal" class="pdf-modal">
+    <div class="pdf-modal-content">
+        <span class="pdf-modal-close" onclick="closePdfModal()">&times;</span>
+        <iframe 
+            src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/sudfudjdskbfsdfjs/zeitlos-maglev/main/%E8%B5%9B%E7%89%B9%E6%96%B0%E6%9D%90%E6%96%99.pdf&embedded=true" 
+            style="width:100%;height:100%;border:none;"
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
 
 </body>
 </html>
